@@ -27,6 +27,27 @@ A RESTful API for managing product data with authentication, database integratio
 - SQL Server (local or Azure SQL Database)
 - Visual Studio 2022, VS Code, or other compatible IDE
 
+
+## Project Structure
+
+- **Controllers**: API endpoints for product management
+- **Models**: Data models including Product entity
+- **Data**: Database context and configuration
+- **Repositories**: Data access layer with CRUD operations
+- **Services**: Business logic layer
+- **Events**: Event publishing functionality
+
+## Navigation Guide
+For developers starting with this codebase:
+
+- The ASP.NET 'Products' Web API source code is available under the folder /src/Products.API/
+- Start by reviewing the Program.cs file to understand the overall application setup
+- Compile and run source code using the instructions in the Running Locally section
+- Integration and Unit tests are included with a set of BDD-based integration tests in the test projects
+- The authentication flow differs based on the environment:
+- For local development, use the /obtainToken endpoint with test credentials
+- For production, integrate with Azure AD as described in the configuration section
+
 ## Configuration
 
 The application uses the standard ASP.NET Core configuration system. Key settings can be configured in `appsettings.json` or through environment variables:
@@ -38,8 +59,9 @@ The application uses the standard ASP.NET Core configuration system. Key setting
   "DefaultConnection": "Server=your-server;Database=ProductsDb;Trusted_Connection=True;MultipleActiveResultSets=true"
 }
 ```
-### Authentication
-For Azure AD (Production):
+### Authentication settings
+
+#### For Azure AD (Production):
 json"UseAzure": true,
 "AzureAd": {
   "Instance": "https://login.microsoftonline.com/",
@@ -48,14 +70,17 @@ json"UseAzure": true,
   "ClientId": "your-client-id",
   "Audience": "your-audience"
 }
-For JWT (Development):
+
+
+#### For JWT (Development/Local):
 json"UseAzure": false,
 "Jwt": {
   "Key": "your-secret-key-at-least-16-characters-long",
   "Issuer": "your-issuer",
   "Audience": "your-audience"
 }
-CORS Settings
+
+#### CORS Settings
 json"AllowedOrigins": [
   "https://yourfrontend.com",
   "http://localhost:3000"
@@ -64,7 +89,6 @@ json"AllowedOrigins": [
 ## Running Locally
 
 Clone the repository
-Configure the appsettings.json file with your database connection string and authentication settings
 Run the following commands:
 
 bashdotnet restore
@@ -73,7 +97,25 @@ dotnet run
 
 Navigate to https://localhost:5001/swagger to view the API documentation
 
+
+### Authentication
+The API includes a built-in authentication controller that provides JWT tokens for development purposes.
+-> Auth Controller Endpoints
+
+POST /obtainToken: Generates a JWT token for the test user
+
+Request Body: { "username": "admin", "password": "password" }
+Response: { "token": "your-jwt-token" }
+
+The endpoint will return a JWT token if credentials are valid
+In Swagger UI, click the "Authorize" button and enter your token as Bearer {your-token}
+All subsequent requests will include the token
+
+
+Note: The hardcoded credentials are for development purposes only. In a production environment, proper authentication should be implemented.
+
 ## Database Initialization
+### Running Locally
 The application automatically creates and seeds the database with sample data on startup if no products exist:
 
 Product 1: Red, SKU001, $19.99, 100 in stock
@@ -171,91 +213,6 @@ Response: 201 Created
   "stockQuantity": 25
 }
 
-### Authentication
-
-For Azure AD (Production):
-```json
-"UseAzure": true,
-"AzureAd": {
-  "Instance": "https://login.microsoftonline.com/",
-  "Domain": "yourdomain.onmicrosoft.com",
-  "TenantId": "your-tenant-id",
-  "ClientId": "your-client-id",
-  "Audience": "your-audience"
-}
-```
-
-For JWT (Development/local):
-```json
-"UseAzure": false,
-"Jwt": {
-  "Key": "your-secret-key-at-least-16-characters-long",
-  "Issuer": "your-issuer",
-  "Audience": "your-audience"
-}
-```
-
-### CORS Settings
-
-```json
-"AllowedOrigins": [
-  "https://yourfrontend.com",
-  "http://localhost:3000"
-]
-```
-
-## Running Locally
-
-1. Clone the repository
-2. Configure the `appsettings.json` file with your database connection string and authentication settings if Production run
-3. Run the following commands:
-
-```bash
-dotnet restore
-dotnet build
-dotnet run
-```
-
-4. Navigate to `https://localhost:5001/swagger` to view the API documentation
-
-## Database Initialization
-
-The application automatically creates and seeds the database with sample data on startup if no products exist:
-- Product 1: Red, SKU001, $19.99, 100 in stock
-- Product 2: Blue, SKU002, $29.99, 50 in stock
-- Product 3: Red, SKU003, $39.99, 75 in stock
-
-## Authentication
-The API includes a built-in authentication controller that provides JWT tokens for development purposes.
-Auth Controller Endpoints
-
-POST /obtainToken: Generates a JWT token for the test user
-
-Request Body: { "username": "admin", "password": "password" }
-Response: { "token": "your-jwt-token" }
-
-
-
-## Using JWT (Development/Local)
-
-Obtain a JWT token by making a POST request to /obtainToken with the following payload:
-json{
-  "username": "admin",
-  "password": "password"
-}
-
-The endpoint will return a JWT token if credentials are valid
-In Swagger UI, click the "Authorize" button and enter your token as Bearer {your-token}
-All subsequent requests will include the token
-
-
-Note: The hardcoded credentials are for development purposes only. In a production environment, proper authentication should be implemented.
-
-### Using Azure AD (Production)
-
-1. Authenticate with Azure AD to obtain an access token
-2. Include the token in the Authorization header of your requests: `Bearer {your-token}`
-
 ## Health Checks
 
 The API provides a health endpoint at `/health` that returns:
@@ -264,15 +221,6 @@ The API provides a health endpoint at `/health` that returns:
 - 503 Service Unavailable: When the application is unhealthy
 
 This endpoint is anonymously accessible and doesn't require authentication.
-
-## Project Structure
-
-- **Controllers**: API endpoints for product management
-- **Models**: Data models including Product entity
-- **Data**: Database context and configuration
-- **Repositories**: Data access layer with CRUD operations
-- **Services**: Business logic layer
-- **Events**: Event publishing functionality
 
 ## Deployment
 
@@ -291,4 +239,5 @@ Comprehensive monitoring with Application Insights
 Environment-specific authentication mechanisms
 High availability and scalability
 
-Refer to the Bicep templates for infrastructure deployment details.
+## Note: 
+The Bicep templates included in this repository are provided to give an overall idea of how infrastructure deployment would be implemented in a production environment. They serve as reference examples to explain the Azure Infrastructure as Code (IaC) deployment approach rather than for direct use in production.
