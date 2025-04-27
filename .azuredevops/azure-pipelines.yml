@@ -11,6 +11,10 @@ trigger:
 variables:
   - name: serviceConnectionDev
     value: azurerm-publish-api-dev-001
+  # - name: serviceConnectionNonProd
+  #   value: azurerm-publish-api-nonprod-001
+  # - name: serviceConnectionProd
+  #   value: azurerm-publish-api-prod-001
 
 stages:
   - template: templates/stages/build.yml@Self
@@ -30,30 +34,74 @@ stages:
       env: dev
       serviceConnection: ${{ variables.serviceConnectionDev }}
 
+  # ---------------------------------------------------------------------------
+  # NonProd Environment
+  # ---------------------------------------------------------------------------
 
-      trigger:
-          - main
+  # - ${{ if eq(variables.isMain, true) }}:
+  #   - template: templates/stages/validate.yml@Self
+  #     parameters:
+  #       env: nonprod
+  #       serviceConnection: ${{ variables.serviceConnectionNonProd }}
+  
+  # - ${{ if eq(variables.isMain, true) }}:
+  #   - template: templates/stages/deploy.yml@Self
+  #     parameters:
+  #       env: nonprod
+  #       serviceConnection: ${{ variables.serviceConnectionNonProd }}
 
-variables:
-  - template: templates/variables.yml  # Import environment variables
+  # - ${{ if eq(variables.isMain, true) }}:
+  #   - template: templates/stages/swagger.yml@Self
+  #     parameters:
+  #       env: nonprod
+  #       serviceConnection: ${{ variables.serviceConnectionNonProd }}
+  #       serviceConnectionBackendApiAdApp : ${{ variables.serviceConnectionBackendApiAdAppNonProd }}
 
-stages:
-- stage: DeployInfra
-  displayName: 'Deploy Infrastructure'
-  jobs:
-  - job: DeployBicep
-    displayName: 'Deploy Bicep Templates'
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'your-azure-service-connection'
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az group create --name $(resourceGroupName) --location $(location)
-          az deployment group create \
-            --resource-group $(resourceGroupName) \
-            --template-file ./infra/bicep/main.bicep \
-            --parameters environmentName=$(environment) azureAdTenantId=$(azureAdTenantId) azureAdAppId=$(azureAdAppId)
+  # - ${{ if eq(variables.isMain, true) }}:
+  #   - template: templates/stages/deploy-apim.yml@Self
+  #     parameters:
+  #       env: nonprod
+  #       serviceConnection: ${{ variables.serviceConnectionNonProd }}
+  #       serviceConnectionBackendApiAdApp : ${{ variables.serviceConnectionBackendApiAdAppNonProd }}
+
+  # ---------------------------------------------------------------------------
+  # Prod Environment
+  # ---------------------------------------------------------------------------
+
+    # - ${{ if eq(variables.isMain, true) }}:
+    #   - template: templates/stages/validate.yml@Self
+    #     parameters:
+    #       env: prod
+    #       serviceConnection: ${{ variables.serviceConnectionProd }}
+
+    # - ${{ if eq(variables.isMain, true) }}:
+    #   - template: templates/stages/snow-raise.yml@Self
+    #     parameters:
+    #       environment: prod
+    #       serviceNowServiceConnection: ${{ variables.serviceNowServiceConnection }}
+    
+    # - ${{ if eq(variables.isMain, true) }}:
+    #   - template: templates/stages/deploy.yml@Self
+    #     parameters:
+    #       env: prod
+    #       serviceConnection: ${{ variables.serviceConnectionProd }}
+
+    # - ${{ if eq(variables.isMain, true) }}:
+    #   - template: templates/stages/swagger.yml@Self
+    #     parameters:
+    #       env: prod
+    #       serviceConnection: ${{ variables.serviceConnectionProd }}
+    #       serviceConnectionBackendApiAdApp : ${{ variables.serviceConnectionBackendApiAdAppProd }}
+
+    # - ${{ if eq(variables.isMain, true) }}:
+    #   - template: templates/stages/deploy-apim.yml@Self
+    #     parameters:
+    #       env: prod
+    #       serviceConnection: ${{ variables.serviceConnectionProd }}
+    #       serviceConnectionBackendApiAdApp : ${{ variables.serviceConnectionBackendApiAdAppProd }}
+
+    # - ${{ if eq(variables.isMain, true) }}:
+    #   - template: templates/stages/snow-release.yml@Self
+    #     parameters:
+    #       environment: prod
+    #       serviceNowServiceConnection: ${{ variables.serviceNowServiceConnection }}

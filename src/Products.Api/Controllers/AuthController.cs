@@ -18,10 +18,10 @@ namespace Products.Api.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("login")]
+        [HttpPost("obtainToken")]
         public IActionResult Login(LoginProp loginRequest)
         {
-            if (loginRequest.Username == "admin" && loginRequest.Password == "password") // This is just for testing; do not hard-code in production
+            if (loginRequest.Username == "admin" && loginRequest.Password == "password") // This is just for testing; not to hard-code in production or any environment
             {
                 var claims = new[]
                 {

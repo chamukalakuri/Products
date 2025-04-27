@@ -117,7 +117,7 @@ namespace Products.Api.Controllers
             }
         }
 
-        [Route("UpdateProduct")]
+        [Route("updateProduct")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(int id, UpdateProductDto productDto)
         {
