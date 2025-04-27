@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schemas.reqnroll.net/reqnroll-config.json",
+  "bindingCulture": {
+    "name": "en-us"
+  },
+  "language": {
+    "feature": "en"
+  },
+  "stepAssemblies": [
+    { "assembly": "Products.Api.IntegrationTest" }
+  ],
+  "runtime": {
+    "missingOrPendingStepsOutcome": "Error"
+  },
+  "plugin": {
+    "isPluginEnabled": true
+  }
+}
