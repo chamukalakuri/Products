@@ -1,0 +1,59 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/*
+      - infra/*
+
+variables:
+  - name: serviceConnectionDev
+    value: azurerm-publish-api-dev-001
+
+stages:
+  - template: templates/stages/build.yml@Self
+  - template: templates/stages/bicep.yml@Self
+
+# ---------------------------------------------------------------------------
+# Dev Environment
+# ---------------------------------------------------------------------------
+
+  - template: templates/stages/validate.yml@Self
+    parameters:
+      env: dev
+      serviceConnection: ${{ variables.serviceConnectionDev }}
+  
+  - template: templates/stages/deploy.yml@Self
+    parameters:
+      env: dev
+      serviceConnection: ${{ variables.serviceConnectionDev }}
+
+
+      trigger:
+          - main
+
+variables:
+  - template: templates/variables.yml  # Import environment variables
+
+stages:
+- stage: DeployInfra
+  displayName: 'Deploy Infrastructure'
+  jobs:
+  - job: DeployBicep
+    displayName: 'Deploy Bicep Templates'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'your-azure-service-connection'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az group create --name $(resourceGroupName) --location $(location)
+          az deployment group create \
+            --resource-group $(resourceGroupName) \
+            --template-file ./infra/bicep/main.bicep \
+            --parameters environmentName=$(environment) azureAdTenantId=$(azureAdTenantId) azureAdAppId=$(azureAdAppId)
