@@ -48,6 +48,12 @@ For developers starting with this codebase:
 - For local development, use the /obtainToken endpoint with test credentials
 - For production, integrate with Azure AD as described in the configuration section
 
+## Architecture Diagrams
+Two sets of simple architecture diagrams are available showing how this Products service could form part of a distributed or microservices event-driven architecture with a few other components shown (e.g. orders, payments).
+These diagrams can be found in:
+
+    /diagram/
+
 ## Configuration
 
 The application uses the standard ASP.NET Core configuration system. Key settings can be configured in `appsettings.json` or through environment variables:
