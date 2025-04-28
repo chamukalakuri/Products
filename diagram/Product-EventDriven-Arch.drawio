@@ -113,7 +113,7 @@
           <mxGeometry x="76" y="446" width="48" height="30" as="geometry" />
         </mxCell>
         <mxCell id="6iMibQRNK-gj-JR9yRj--4" value="&lt;font&gt;&lt;i&gt;Distributed Event-Driven Microservices Architecture with Azure Messaging Services&lt;/i&gt;&lt;/font&gt;" style="html=1;dashed=0;labelBackgroundColor=none;fillColor=none;strokeColor=none;fontColor=light-dark(#444141, #adcad5);labelBorderColor=none;fontStyle=5;fontSize=20;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="142" y="58" width="823" height="54" as="geometry" />
+          <mxGeometry x="142" y="75" width="823" height="54" as="geometry" />
         </mxCell>
         <mxCell id="UF3mLuzU6msnJ-maLbUb-1" value="Microservice" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="972" y="200" width="48" height="48" as="geometry" />
