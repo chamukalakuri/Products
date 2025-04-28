@@ -136,21 +136,21 @@ Description: Retrieve all products
 Authentication: Required
 Response: 200 OK with array of product objects
 
-GET /api/products/{id}
+GET /api/products/getproductbyID
 
 Description: Retrieve a specific product by ID
 Authentication: Required
 Parameters: id (path parameter)
 Response: 200 OK with product object or 404 Not Found
 
-POST /api/products
+POST /api/products/createProduct
 
 Description: Create a new product
 Authentication: Required
 Request Body: Product object without ID
 Response: 201 Created with the created product including ID
 
-PUT /api/products/{id}
+PUT /api/products/updateProduct
 
 Description: Update an existing product
 Authentication: Required
@@ -158,14 +158,14 @@ Parameters: id (path parameter)
 Request Body: Updated product object
 Response: 200 OK with updated product or 404 Not Found
 
-DELETE /api/products/{id}
+DELETE /api/products/deleteProductbyId
 
 Description: Delete a product
 Authentication: Required
 Parameters: id (path parameter)
 Response: 204 No Content or 404 Not Found
 
-GET /api/products/color/{color}
+GET /api/products/getProductbyColor
 
 Description: Filter products by color
 Authentication: Required
