@@ -246,4 +246,4 @@ Environment-specific authentication mechanisms
 High availability and scalability
 
 ## Note: 
-The Bicep templates included in this repository are provided to give an overall idea of how infrastructure deployment would be implemented in a production environment. They serve as reference examples to explain the Azure Infrastructure as Code (IaC) deployment approach rather than for direct use in production.
+The Bicep templates included in this repository are provided to give an overall idea of how infrastructure deployment would be implemented in a production environment, including the Azure setup and integration with Products Web API service. They serve as reference examples to explain the Azure Infrastructure as Code (IaC) deployment approach rather than for direct use in production.
