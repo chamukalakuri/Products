@@ -44,7 +44,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="YH1nLclGi4jUU_9F0U5y-17" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/databases/SQL_Database.svg;strokeColor=#0F8B8D;fontColor=#143642;fillColor=#FAE5C7;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="403.25" y="396" width="22.5" height="30" as="geometry" />
+          <mxGeometry x="403.25" y="403" width="22.5" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YH1nLclGi4jUU_9F0U5y-18" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/integration/Service_Bus.svg;strokeColor=#0F8B8D;fontColor=#143642;fillColor=#FAE5C7;labelBackgroundColor=none;" parent="1" vertex="1">
           <mxGeometry x="538" y="385" width="118.47" height="104.53" as="geometry" />
